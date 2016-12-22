@@ -15,7 +15,6 @@ def intTryParse(value):
 def process(res):
   for row in res:
     if intTryParse(row['1.0']):
-      logging.info(row)
       yield row
 
 spew(datapackage,  (process(res) for res in resource_iterator))

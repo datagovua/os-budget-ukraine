@@ -20,7 +20,6 @@ def download(archive_url, download_to):
   urllib.request.urlretrieve(archive_url, download_to)
   logging.info('Saved to %s' % download_to)
 
-
 def unpack(archive_name, extract_dir):
   logging.info('Extracting %s' % archive_name)
   extracted = Archive(archive_name).extractall(extract_dir)
@@ -37,14 +36,20 @@ for res in datapackage['resources']:
   download_and_unzip(res['url'], res['filename'])
   for file_obj in res['files']:
     filename = file_obj['filename']
-    resources.append({
-      'url': 'file:///tmp/%s' % filename,
-      'sheet': 0,
-      'headers': 10
-#      'schema': { 'fields': file_obj['sheets'][0]['fields'] }
-    })
+    for sheet in file_obj['sheets']:
+      sheet_id = sheet['id']
+      resource_name = sheet['name']
+      resources.append({
+        'url': 'file:///tmp/%s' % filename,
+        'sheet': sheet_id,
+        'headers': sheet['headers'],
+        'name': resource_name
+#      'schema': { 'fields': file_obj['sheets'][sheet['id']]['fields'] }
+      })
+      datapackage[resource_name] = {'budget_type': sheet['budgetType']}
 
 datapackage['resources'] = resources
+datapackage['resource_params'] = resource_params
 logging.info(datapackage) 
 
 spew(datapackage, resource_iterator)
