@@ -17,6 +17,9 @@ ukraine-budget-spending:
                 sheets:
                   -
                     name: "Ек.клас.ДБ2014"
+                    id: 0
+                    name: 2014_ek_derz
+                    headers: 10
                     description: "Видатки за економічною класифікацією"
                     budgetType: "Державний бюджет"
                     fields:
@@ -54,6 +57,9 @@ ukraine-budget-spending:
                       osType: value
                   -
                     name: "Ек.клас.ЗБ2014"
+                    id: 1
+                    name: 2014_ek_zved
+                    headers: 9
                     budgetType: "Зведений бюджет"
                     fields:
                     -
@@ -90,6 +96,9 @@ ukraine-budget-spending:
                       osType: value
                   -
                     name: "Ек.клас.МБ2014"
+                    id: 2
+                    headers: 9
+                    name: 2014_ek_misz
                     budgetType: "Місцевий бюджет"
                     fields:
                     -
@@ -138,6 +147,23 @@ ukraine-budget-spending:
       run: downloader
     -
       run: skipper
+    -
+      run: add_context
+    -
+      run: concat
+      parameters:
+        resource-name: budgetary_data
+        column-aliases:
+          CODE: ["1.0"]
+          DESCRIPTION: ["2.0"]
+          GENERAL_FUND_PLANNED: ["3.0"]
+          GENERAL_FUNC_EXECUTED: ["4.0"]
+          SPECIAL_FUND_PLANNED: ["5.0"]
+          SPECIAL_FUND_EXECUTED: ["6.0"]
+          TOTAL_PLANNED: ["7.0"]
+          TOTAL_EXECUTED: ["8.0"]
+          BUDGET_TYPE: ["budget type"]
+          DATE: ["date"]
     -
       run: dump
       parameters:
