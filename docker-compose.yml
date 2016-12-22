@@ -1,0 +1,11 @@
+version: '2'
+services:
+  pipeline:
+    build: .
+    command: sh -c "cd /src && pwd && dpp run ./ukraine-budget-spending"
+    #command: sh -c "cd /src && pwd && dpp"
+    ports:
+      - 5000:5000
+    volumes:
+      - ./:/src
+#    user: $UID

@@ -1,0 +1,144 @@
+ukraine-budget-spending:
+  schedule:
+    crontab: '0 * * * *'
+  pipeline:
+    -
+      run: simple_remote_source
+      parameters:
+        resources:
+          -
+            url: "http://www.treasury.gov.ua/main/doccatalog/document?id=257807"
+            filetype: zip
+            filename: 'budget2014.zip'
+            date: "2014"
+            files:
+              - 
+                filename: 'Rik_ek.xls'
+                sheets:
+                  -
+                    name: "Ек.клас.ДБ2014"
+                    description: "Видатки за економічною класифікацією"
+                    budgetType: "Державний бюджет"
+                    fields:
+                    -
+                      name: "Код бюджетної класифікації"
+                      type: string
+                      osType: value
+                    -
+                      name: "Показники"
+                      type: string
+                      osType: value
+                    -
+                      name: "План на 2014 рік з урахуванням внесених змін"
+                      type: number
+                      osType: value
+                    -
+                      name: "Виконано за 2014 рік"
+                      type: number
+                      osType: value
+                    -
+                      name: "План на 2014 рік з урахуванням внесених змін"
+                      type: number
+                      osType: value
+                    -
+                      name: "Виконано за 2014 рік"
+                      type: number
+                      osType: value
+                    -
+                      name: "План на 2014 рік з урахуванням внесених змін"
+                      type: number
+                      osType: value
+                    -
+                      name: "Виконано за 2014 рік"
+                      type: number
+                      osType: value
+                  -
+                    name: "Ек.клас.ЗБ2014"
+                    budgetType: "Зведений бюджет"
+                    fields:
+                    -
+                      name: "Код бюджетної класифікації"
+                      type: number
+                      osType: value
+                    -
+                      name: "Показники"
+                      type: number
+                      osType: value
+                    -
+                      name: "План на 2014 рік з урахуванням внесених змін"
+                      type: number
+                      osType: value
+                    -
+                      name: "Виконано за 2014 рік"
+                      type: number
+                      osType: value
+                    -
+                      name: "План на 2014 рік з урахуванням внесених змін"
+                      type: number
+                      osType: value
+                    -
+                      name: "Виконано за 2014 рік"
+                      type: number
+                      osType: value
+                    -
+                      name: "План на 2014 рік з урахуванням внесених змін"
+                      type: number
+                      osType: value
+                    -
+                      name: "Виконано за 2014 рік"
+                      type: number
+                      osType: value
+                  -
+                    name: "Ек.клас.МБ2014"
+                    budgetType: "Місцевий бюджет"
+                    fields:
+                    -
+                      name: "Код бюджетної класифікації"
+                      type: number
+                      osType: value
+                    -
+                      name: "Показники"
+                      type: number
+                      osType: value
+                    -
+                      name: "План на 2014 рік з урахуванням внесених змін"
+                      type: number
+                      osType: value
+                    -
+                      name: "Виконано за 2014 рік"
+                      type: number
+                      osType: value
+                    -
+                      name: "План на 2014 рік з урахуванням внесених змін"
+                      type: number
+                      osType: value
+                    -
+                      name: "Виконано за 2014 рік"
+                      type: number
+                      osType: value
+                    -
+                      name: "План на 2014 рік з урахуванням внесених змін"
+                      type: number
+                      osType: value
+                    -
+                      name: "Виконано за 2014 рік"
+                      type: number
+                      osType: value
+    -
+      run: metadata
+      parameters:
+        metadata:
+          name: 'ua-budget-spending'
+          title: 'Ukraine Budget Spending'
+          granularity: yearly
+          countryCode: UA
+    -
+      run: download_zip
+    -
+      run: downloader
+    -
+      run: skipper
+    -
+      run: dump
+      parameters:
+          out-file: ua-budget-spending.zip
